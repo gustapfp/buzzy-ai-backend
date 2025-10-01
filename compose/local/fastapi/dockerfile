@@ -1,0 +1,16 @@
+FROM docker.io/python:3.12.9-slim-bookworm AS python
+
+WORKDIR /code
+
+# Copy requirements first (better layer caching)
+COPY requirements/requirements.txt /code/requirements.txt
+
+# Install dependencies
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# Copy application code
+COPY backend/app /code/app
+
+
+CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+
