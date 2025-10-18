@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 
+
 class Settings(BaseSettings):
     openai_api_key: str
 
@@ -9,4 +10,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-
