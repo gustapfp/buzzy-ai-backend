@@ -8,7 +8,7 @@ logger = get_logger()
 class WhatsAppMessageError(Exception):
     """Exception raised when an error occurs while processing a WhatsApp message."""
 
-class EvolutionMessageProcessor: 
+class WhatsAppMessageProcessor: 
     def __init__(self):
         self.transform = WhatsAppMessageTransformer()
 

@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 
-from src.integrations.evolutionApi.schemas import WhatsAppMessage
+
+from src.integrations.evolutionApi.utils import WhatsAppMessageProcessor
 
 
 evolutionApi = APIRouter()
+processor = WhatsAppMessageProcessor()
 
 @evolutionApi.post(
     path = f"/messages-webhook",
@@ -16,10 +18,11 @@ async def messages_webhook(
     """Webhook to receive the WhatsApp messages from Evolution API.
 
     Args:
-        message (WhatsAppMessage): WhatsApp message received from Evolution API.
+        message (EvolutionApiPayload): WhatsApp message received from Evolution API.
 
     Returns:
-        dict: 
+        dict: Processed message.
     """
     print(message)
-    return {"message": message}
+    processed_message = processor.process_whatsapp_message(message)
+    return {"message": processed_message.model_dump()}
