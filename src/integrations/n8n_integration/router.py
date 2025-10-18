@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.n8n_integration.schemas import WhatsAppMessageSchema
+from src.integrations.n8n_integration.schemas import WhatsAppMessageSchema
 import requests
 
 n8n_router = APIRouter()
