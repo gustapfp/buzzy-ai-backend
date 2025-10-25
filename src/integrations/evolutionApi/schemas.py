@@ -1,22 +1,17 @@
 from pydantic import BaseModel
 
-
-class WhatsAppTextMessage(BaseModel):
+class BaseWhatsAppMessage(BaseModel):
     id: str
     name: str
-    text_json: dict
     sender_phone_number: str
+class WhatsAppTextMessage(BaseWhatsAppMessage):
+    text_json: dict
+    text: str
 
-class WhatsAppAudioMessage(BaseModel):
-    id: str
-    name: str
+class WhatsAppAudioMessage(BaseWhatsAppMessage):
     audio_base64: str
     audio_json: dict
-    sender_phone_number: str
 
-class WhatsAppImageMessage(BaseModel):
-    id: str
-    name: str
+class WhatsAppImageMessage(BaseWhatsAppMessage):
     image_base64: str
     image_json: dict
-    sender_phone_number: str

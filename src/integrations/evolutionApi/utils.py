@@ -16,7 +16,7 @@ class WhatsAppMessageProcessor:
         return self.__extract_message_based_on_type(message)
 
     def __extract_message_based_on_type(self, message: dict) -> (
-        WhatsAppTextMessage | WhatsAppAudioMessage | WhatsAppImageMessage | dict
+        WhatsAppTextMessage | WhatsAppAudioMessage | WhatsAppImageMessage | None
     ):
        
         message_type = message.get("data", {}).get("messageType", "unknown")
@@ -31,7 +31,7 @@ class WhatsAppMessageProcessor:
             case "imageMessage":
                 return self.__extract_image_message(message)
             case _:
-                return {"message_type": "unknown", "message": message}
+                return None
        
     def __extract_text_message(self, message: dict) -> WhatsAppTextMessage:
         data= message.get("data", {})
@@ -41,6 +41,7 @@ class WhatsAppMessageProcessor:
                 id=data.get("key", {}).get("id", "unknown"),
                 name=data.get("pushName", "unknown"),
                 text_json=data.get("message", {}),
+                text=data.get("message", {}).get("conversation", ""),
                 sender_phone_number=self.transform.number_link_to_phone_number(message.get("sender"))
             )
         except Exception as e:
@@ -73,3 +74,5 @@ class WhatsAppMessageProcessor:
             )
         except Exception as e:
             raise WhatsAppMessageError(f"Error extracting image message: {e} - message: {message}")
+
+

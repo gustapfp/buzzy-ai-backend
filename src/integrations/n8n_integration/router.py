@@ -1,16 +1,21 @@
 from fastapi import APIRouter
-from src.integrations.n8n_integration.schemas import WhatsAppMessageSchema
+from src.agents.state_classifier.schemas import MessageClassification
+
 import requests
+
+from src.integrations.evolutionApi.schemas import WhatsAppTextMessage
 
 n8n_router = APIRouter()
 
 
 @n8n_router.post(
-    path = f"/message-doubts-agents-trigger",
-
+    path = "/send-message-to-agent",
+    tags = ["N8N Integration"],
+    summary = "Send a message to an agent at N8N.",
 )
-async def send_message_doubts_agents_trigger(
-    message: WhatsAppMessageSchema, 
+async def send_message_to_agent(
+    classification: MessageClassification, 
+    whatsapp_message: WhatsAppTextMessage,
     url: str
 ) -> dict:
     """Send a message to the doubts Agent at N8N
@@ -24,7 +29,10 @@ async def send_message_doubts_agents_trigger(
 
     response = requests.post(
         url = url,
-        json = message.model_dump(),
+        json = {
+            "classification": classification.model_dump(),
+            "whatsapp_info": whatsapp_message.model_dump(),
+        },
     )
     return response.json()
 
