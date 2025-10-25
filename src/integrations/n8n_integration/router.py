@@ -7,9 +7,11 @@ n8n_router = APIRouter()
 
 @n8n_router.post(
     path = f"/message-doubts-agents-trigger",
+
 )
 async def send_message_doubts_agents_trigger(
-    message: WhatsAppMessageSchema
+    message: WhatsAppMessageSchema, 
+    url: str
 ) -> dict:
     """Send a message to the doubts Agent at N8N
 
@@ -19,7 +21,7 @@ async def send_message_doubts_agents_trigger(
     Returns:
         dict: Response from N8N
     """
-    url = "https://test.buzzyai.com.br/webhook-test/message-doubts-agent"
+
     response = requests.post(
         url = url,
         json = message.model_dump(),
