@@ -23,6 +23,6 @@ async def messages_webhook(
     Returns:
         dict: Processed message.
     """
-    print(message)
+
     processed_message = processor.process_whatsapp_message(message)
-    return {"message": processed_message.model_dump()}
+    return {"message": processed_message}
